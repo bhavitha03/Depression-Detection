@@ -5,6 +5,12 @@ from sklearn.naive_bayes import MultinomialNB
 import nltk
 
 # Check if NLTK's 'stopwords' resource is available, and if not, download it
+if not nltk.corpus.stopwords.words('english'):
+    st.info("Downloading NLTK stopwords data. This may take a moment...")
+    nltk.download('stopwords')
+    st.success("NLTK stopwords data downloaded successfully.")
+
+# Check if NLTK's 'stopwords' resource is available, and if not, download it
 if not nltk.corpus.reader.words('english'):
     nltk.download('stopwords')
 
