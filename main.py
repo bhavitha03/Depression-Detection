@@ -10,10 +10,6 @@ if not nltk.corpus.stopwords.words('english'):
     nltk.download('stopwords')
     st.success("NLTK stopwords data downloaded successfully.")
 
-# Check if NLTK's 'stopwords' resource is available, and if not, download it
-if not nltk.corpus.reader.words('english'):
-    nltk.download('stopwords')
-
 # Load your dataset
 data = pd.read_csv("tweets.csv")
 
@@ -27,10 +23,11 @@ def preprocess_text(text):
     preprocessed_text = ' '.join(tokens)
     return preprocessed_text
 
-data['message'] = data['message'].apply(preprocess_text)
-
-# The rest of your Streamlit app code here
-
+# Check if the 'label' column exists in your dataset
+if 'label' in data.columns:
+    data['message'] = data['message'].apply(preprocess_text)
+else:
+    st.error("The 'label' column is missing in your dataset.")
 
 # Split the data into features (X) and labels (y)
 X = data['message']
@@ -50,28 +47,31 @@ st.write("Enter a message to predict if it indicates depression or not.")
 
 user_input = st.text_input("Enter a message:")
 if st.button("Predict"):
-    user_input = preprocess_text(user_input)
-    user_input_vec = vectorizer.transform([user_input])
-    prediction = clf.predict(user_input_vec)
-    if prediction[0] == 1:
-        st.write("Predicted: Depressed")
+    if not user_input:
+        st.warning("Please enter a message.")
     else:
-        st.write("Predicted: Not Depressed")
+        user_input = preprocess_text(user_input)
+        user_input_vec = vectorizer.transform([user_input])
+        prediction = clf.predict(user_input_vec)
+        if prediction[0] == 1:
+            st.write("Predicted: Depressed")
+        else:
+            st.write("Predicted: Not Depressed")
 
-
-import base64
+# Add background image
 def add_bg_from_local(image_file):
     with open(image_file, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read())
     st.markdown(
-    f"""
-    <style>
-    .stApp {{
-        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
-        background-size: cover
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True
+        f"""
+        <style>
+        .stApp {{
+            background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+            background-size: cover
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
     )
-add_bg_from_local('imp.jpg')    
+
+add_bg_from_local('imp.jpg')
