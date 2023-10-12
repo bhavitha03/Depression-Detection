@@ -5,6 +5,18 @@ from sklearn.naive_bayes import MultinomialNB
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
+import nltk
+import streamlit as st
+
+# Check if NLTK's 'punkt' resource is available, if not, download it
+if not nltk.download('punkt', quiet=True):
+    st.info("Downloading NLTK data. This may take a moment...")
+    nltk.download('punkt')
+    st.success("NLTK data downloaded successfully.")
+
+# The rest of your Streamlit app code here
+
+
 # Load your dataset
 data = pd.read_csv("tweets.csv")
 
