@@ -78,4 +78,4 @@ def add_bg_from_local(image_file):
         unsafe_allow_html=True
     )
 
-add_bg_from_local('imp.jpg')
+add_bg_from_local('depr.png')
