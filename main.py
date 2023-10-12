@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import nltk
+import base64
 
 # Check if NLTK's 'stopwords' resource is available, and if not, download it
 try:
