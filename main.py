@@ -2,20 +2,11 @@ import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-
 import nltk
-import streamlit as st
 
-# Check if NLTK's 'punkt' resource is available, if not, download it
-if not nltk.download('punkt', quiet=True):
-    st.info("Downloading NLTK data. This may take a moment...")
-    nltk.download('punkt')
-    st.success("NLTK data downloaded successfully.")
-
-# The rest of your Streamlit app code here
-
+# Check if NLTK's 'stopwords' resource is available, and if not, download it
+if not nltk.corpus.reader.words('english'):
+    nltk.download('stopwords')
 
 # Load your dataset
 data = pd.read_csv("tweets.csv")
@@ -23,14 +14,17 @@ data = pd.read_csv("tweets.csv")
 # Data Preprocessing
 def preprocess_text(text):
     # Tokenize the text
-    tokens = word_tokenize(text)
+    tokens = nltk.word_tokenize(text)
     # Remove stopwords
-    tokens = [word for word in tokens if word.lower() not in set(stopwords.words('english'))]
+    tokens = [word for word in tokens if word.lower() not in set(nltk.corpus.stopwords.words('english'))]
     # Join tokens back into a string
     preprocessed_text = ' '.join(tokens)
     return preprocessed_text
 
 data['message'] = data['message'].apply(preprocess_text)
+
+# The rest of your Streamlit app code here
+
 
 # Split the data into features (X) and labels (y)
 X = data['message']
