@@ -13,6 +13,15 @@ except LookupError:
     nltk.download('stopwords')
     st.success("NLTK stopwords data downloaded successfully.")
 
+# Check if NLTK's 'punkt' resource is available, and if not, download it
+try:
+    nltk.data.find('tokenizers/punkt/PY3/english.pickle')
+except LookupError:
+    st.info("Downloading NLTK 'punkt' data. This may take a moment...")
+    nltk.download('punkt')
+    st.success("NLTK 'punkt' data downloaded successfully.")
+
+
 
 # Load your dataset
 data = pd.read_csv("tweets.csv")
