@@ -4,6 +4,9 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import nltk
 import base64
+import nltk  # Import the nltk module
+from nltk.tokenize import word_tokenize  # Import word_tokenize
+from nltk.corpus import stopwords
 
 # Check if NLTK's 'stopwords' resource is available, and if not, download it
 try:
